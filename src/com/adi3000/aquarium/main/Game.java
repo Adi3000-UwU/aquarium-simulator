@@ -23,6 +23,8 @@ public class Game extends JPanel implements Runnable {
     private BufferedImage image;
     private Graphics2D g2d;
     
+    public static GameManager gameManager;
+    
     
     public Game() {
         super();
@@ -48,6 +50,7 @@ public class Game extends JPanel implements Runnable {
         g2d = image.createGraphics();
         running = true;
         
+        gameManager = new GameManager();
     }
     
     public void run() {
@@ -86,13 +89,14 @@ public class Game extends JPanel implements Runnable {
     }
     
     private void tick() {
-    
+        gameManager.tick();
     }
     
     private void render() {
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(new Color(0x000080));
         g2d.fillRect(0, 0, WIDTH, HEIGHT);
         
+        gameManager.render(g2d);
         
         drawFPS();
     }

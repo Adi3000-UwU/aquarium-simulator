@@ -34,18 +34,19 @@ public class Vector2 {
         return new double[] {x, y};
     }
     
-    public void set(double x, double y) {
+    public Vector2 set(double x, double y) {
         this.x = x;
         this.y = y;
+        return this;
     }
-    public void set(Vector2 v) {
-        set(v.x, v.y);
+    public Vector2 set(Vector2 v) {
+        return set(v.x, v.y);
     }
-    public void set(double[] components) {
-        set(components[0], components[1]);
+    public Vector2 set(double[] components) {
+        return set(components[0], components[1]);
     }
-    public void setMagnitude(double mag) {
-        set(getNormilized().mult(mag));
+    public Vector2 setMagnitude(double mag) {
+        return set(getNormilized().mult(mag));
     }
     
     public Vector2 add(Vector2 v) {
@@ -71,6 +72,13 @@ public class Vector2 {
     }
     public static Vector2 div(Vector2 v, double scalar) {
         return new Vector2(v.x / scalar, v.y / scalar);
+    }
+    
+    public Vector2 inc(Vector2 v) {
+        return inc(this, v);
+    }
+    public static Vector2 inc(Vector2 v1, Vector2 v2) {
+        return v1.set(add(v1, v2));
     }
     
     public double mag() {
