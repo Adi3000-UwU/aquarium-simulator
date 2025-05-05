@@ -1,6 +1,6 @@
 package com.adi3000.aquarium.objects;
 
-import com.adi3000.aquarium.main.MouseHandler;
+import com.adi3000.aquarium.main.Game;
 import com.adi3000.aquarium.math.Vector2;
 
 import java.awt.*;
@@ -13,30 +13,32 @@ public class Fish {
     
     private Color color;
     
-    private double maxCelocity = 4;
-    private double acceleration = 1;
+    private double maxVelocity = 2.5;
+    private double acceleration = 0.2;
     
     
     public Fish(Vector2 position, Color color) {
         this.position = position;
         this.color = color;
-
+        
         velocity = new Vector2();
         target = new Vector2();
     }
     
     
     public void tick() {
-        target = MouseHandler.getInstance().mousePos;
+        if (target.equals(new Vector2()) || position.distance(target) < 30) {
+            target = new Vector2(Math.random() * Game.WIDTH, Math.random() * Game.HEIGHT);
+        }
         
         goToTarget(target);
     }
     
     private void goToTarget(Vector2 target) {
-        velocity.inc(target.sub(position).setMagnitude(acceleration));
+        velocity.inc(target.sub(position).getNormilized().mult(acceleration));
         
-        if(velocity.mag() > maxCelocity) {
-            velocity.setMagnitude(maxCelocity);
+        if (velocity.mag() > maxVelocity) {
+            velocity.setMagnitude(maxVelocity);
         }
         
         position.inc(velocity);
