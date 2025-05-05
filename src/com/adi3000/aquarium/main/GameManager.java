@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class GameManager {
     
-    Fish fish = new Fish(new Vector2(100, 200), new Vector2(1,0), new Color(0xE54848));
+    Fish fish = new Fish(new Vector2(100, 200), new Color(0xE54848));
     
     public GameManager() {
     
