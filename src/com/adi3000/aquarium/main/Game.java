@@ -9,7 +9,7 @@ public class Game extends JPanel implements Runnable {
     // Dimensions
     private static final int SCREEN_WIDTH = 1280;
     private static final int SCREEN_HEIGHT = 720;
-    public static final int SCREEN_SCALE = 2;
+    public static final int SCREEN_SCALE = 1;
     public static final int WIDTH = SCREEN_WIDTH / SCREEN_SCALE;
     public static final int HEIGHT  = SCREEN_HEIGHT / SCREEN_SCALE;
     

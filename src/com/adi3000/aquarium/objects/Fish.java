@@ -13,9 +13,11 @@ public class Fish {
     public Vector2 target;
     
     private Color color;
+    private int size = 10;
     
     private double maxVelocity = 2.5;
     private double acceleration = 0.2;
+    private double swimRandomness = 0.4;
     
     
     public boolean isLeader = true;
@@ -58,12 +60,23 @@ public class Fish {
             target.set(leader.target);
         }
         
+        Math.clamp(target.x, size, Game.WIDTH - size);
+        Math.clamp(target.y, size, Game.HEIGHT - size);
         
-        goToTarget(target);
+        
+        ArrayList<Fish> fishNearby = Game.gameManager.getFishInRange(position, size);
+        fishNearby.remove(this);
+        Vector2 seperationOffset = new Vector2();
+        for (Fish fish : fishNearby) {
+            seperationOffset.inc(fish.position.sub(position));
+        }
+        
+        
+        goToTarget(target.add(seperationOffset));
     }
     
     private void goToTarget(Vector2 target) {
-        velocity.inc(target.sub(position).getNormilized().mult(acceleration));
+        velocity.inc(target.sub(position).getNormilized().mult(acceleration).add(new Vector2(Math.random() * (2 * swimRandomness) - swimRandomness, Math.random() * (2 * swimRandomness) - swimRandomness)));
         
         if (velocity.mag() > maxVelocity) {
             velocity.setMagnitude(maxVelocity);
@@ -114,7 +127,7 @@ public class Fish {
 //            g2d.drawLine((int) position.x, (int) position.y, (int) leader.position.x, (int) leader.position.y);
         }
         
-        g2d.fillOval((int) position.x, (int) position.y, 10, 10);
+        g2d.fillOval((int) position.x, (int) position.y, size, size);
 
 //        g2d.setColor(Color.MAGENTA);
 //        g2d.drawLine((int) position.x, (int) position.y, (int) target.x, (int) target.y);
