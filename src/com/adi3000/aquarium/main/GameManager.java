@@ -12,7 +12,7 @@ public class GameManager {
     
     public GameManager() {
         
-        for (int i = 0; i < 60; i++) {
+        for (int i = 0; i < 100; i++) {
             fishes.add(new Fish(new Vector2(Math.random() * Game.WIDTH, Math.random() * Game.HEIGHT), new Color(0xE54848)));
         }
         
@@ -22,7 +22,6 @@ public class GameManager {
     public void tick() {
         for (Fish fish : fishes) {
             fish.tick();
-            
         }
         
     }

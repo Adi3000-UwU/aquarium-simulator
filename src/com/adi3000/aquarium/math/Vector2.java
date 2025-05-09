@@ -48,6 +48,11 @@ public class Vector2 {
     public Vector2 setMagnitude(double mag) {
         return set(getNormilized().mult(mag));
     }
+    public Vector2 clamp(Vector2 min, Vector2 max) {
+        x = Math.clamp(x, min.x, max.x);
+        y = Math.clamp(y, min.y, max.y);
+        return this;
+    }
     
     public Vector2 add(Vector2 v) {
         return add(this, v);
