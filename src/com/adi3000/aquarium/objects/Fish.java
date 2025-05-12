@@ -20,8 +20,8 @@ public abstract class Fish {
     protected double swimRandomness = 0.4;
     
     
-    public Fish(Vector2 position) {
-        this.position = position;
+    public Fish() {
+        this.position = getDefaultTarget();
         
         velocity = new Vector2();
         target = new Vector2();
@@ -59,7 +59,7 @@ public abstract class Fish {
     public void render(Graphics2D g2d) {
         g2d.setColor(color);
         
-        g2d.fillOval((int) position.x, (int) position.y, size, size);
+        g2d.fillOval((int) position.x - size / 2, (int) position.y - size / 2, size, size);
     }
     
 }

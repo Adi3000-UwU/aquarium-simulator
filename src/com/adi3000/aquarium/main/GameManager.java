@@ -2,7 +2,9 @@ package com.adi3000.aquarium.main;
 
 import com.adi3000.aquarium.math.Vector2;
 import com.adi3000.aquarium.objects.Fish;
-import com.adi3000.aquarium.objects.GroupFish;
+import com.adi3000.aquarium.objects.fish_types.DeepFish;
+import com.adi3000.aquarium.objects.fish_types.NormalFish;
+import com.adi3000.aquarium.objects.fish_types.SingleFish;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,7 +16,15 @@ public class GameManager {
     public GameManager() {
         
         for (int i = 0; i < 100; i++) {
-            fishes.add(new GroupFish(new Vector2(Math.random() * Game.WIDTH, Math.random() * Game.HEIGHT)));
+            fishes.add(new NormalFish());
+        }
+        
+        for (int i = 0; i < 20; i++) {
+            fishes.add(new DeepFish());
+        }
+        
+        for (int i = 0; i < 10; i++) {
+            fishes.add(new SingleFish());
         }
         
     }

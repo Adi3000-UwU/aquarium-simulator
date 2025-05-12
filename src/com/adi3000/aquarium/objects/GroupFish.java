@@ -3,26 +3,18 @@ package com.adi3000.aquarium.objects;
 import com.adi3000.aquarium.main.Game;
 import com.adi3000.aquarium.math.Vector2;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
-public class GroupFish extends Fish{
+public abstract class GroupFish extends Fish{
     
     public boolean isLeader = true;
     public ArrayList<GroupFish> group = new ArrayList<>();
     public GroupFish leader;
     
-    private double viewDistance = 60;
-    private int maxGroupSize = 15;
-    private int minGroupSize = 10;
+    protected double viewDistance;
+    protected int maxGroupSize;
+    protected int minGroupSize;
     
-    public GroupFish(Vector2 position) {
-        super(position);
-        
-        color = new Color(0xE54848);
-        size = 10;
-    }
     
     @Override
     public void tick() {
@@ -33,10 +25,10 @@ public class GroupFish extends Fish{
     }
     
     
-    private void groupManagment() {
-        ArrayList<GroupFish> fishNearby = Game.gameManager.getFishInRange(position, viewDistance).stream()
-                .filter(GroupFish.class::isInstance)
-                .map(GroupFish.class::cast).collect(Collectors.toCollection(ArrayList::new));
+    protected abstract ArrayList<GroupFish> getNearbyFish();
+    
+    protected void groupManagment() {
+        ArrayList<GroupFish> fishNearby = getNearbyFish();
         
         fishNearby.remove(this);
         fishNearby.removeAll(getGroup());
@@ -67,7 +59,7 @@ public class GroupFish extends Fish{
         }
     }
     
-    private void findTarget() {
+    protected void findTarget() {
         if (target.distance(new Vector2()) <= 2 * size || position.distance(target) < 20) {
             if (isLeader) {
                 target.set(getDefaultTarget());
@@ -84,7 +76,7 @@ public class GroupFish extends Fish{
     }
     
     
-    private void joinGroup(GroupFish fish) {
+    protected void joinGroup(GroupFish fish) {
         if (fish.equals(this)) return;
         if (getGroup().contains(fish)) return;
         
@@ -99,7 +91,7 @@ public class GroupFish extends Fish{
         group.add(fish);
     }
     
-    private void leaveGroup() {
+    protected void leaveGroup() {
         target.set(0,0);
         
         if (!isLeader) {
@@ -118,12 +110,12 @@ public class GroupFish extends Fish{
     }
     
     
-    private int getCurrentGroupSize() {
+    protected int getCurrentGroupSize() {
         if (isLeader) return group.size() + 1;
         return leader.getCurrentGroupSize();
     }
     
-    private ArrayList<GroupFish> getGroup() {
+    protected ArrayList<GroupFish> getGroup() {
         if (isLeader) return group;
         return leader.getGroup();
     }
