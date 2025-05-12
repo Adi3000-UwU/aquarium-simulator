@@ -5,7 +5,7 @@ import com.adi3000.aquarium.math.Vector2;
 
 import java.util.ArrayList;
 
-public abstract class GroupFish extends Fish{
+public abstract class GroupFish extends Fish {
     
     public boolean isLeader = true;
     public ArrayList<GroupFish> group = new ArrayList<>();
@@ -60,11 +60,12 @@ public abstract class GroupFish extends Fish{
     }
     
     protected void findTarget() {
-        if (target.distance(new Vector2()) <= 2 * size || position.distance(target) < 20) {
+        if (target == null || target.equals(new Vector2()) || position.distance(target) < 20) {
             if (isLeader) {
-                target.set(getDefaultTarget());
+                target = getDefaultTarget();
             } else {
-                target.set(leader.target.add(position.sub(leader.position)).add(new Vector2(Math.random() * 15 - 7.5, Math.random() * 15 - 7.5)));
+                if (leader.target == null) leader.findTarget();
+                target = leader.target.add(position.sub(leader.position)).add(new Vector2(Math.random() * 15 - 7.5, Math.random() * 15 - 7.5));
             }
         }
         if (!isLeader && position.distance(leader.position) > 40) {
@@ -92,7 +93,7 @@ public abstract class GroupFish extends Fish{
     }
     
     protected void leaveGroup() {
-        target.set(0,0);
+        target = null;
         
         if (!isLeader) {
             leader.group.remove(this);
